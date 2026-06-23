@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Login - HR Gestionale</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body class="app-shell">
+<main class="page-container">
+<h1>Login HR Gestionale</h1>
+<form th:action="@{/login}" method="post">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+    <div>
+        <label for="username">Username</label>
+        <input id="username" name="username" type="text" required />
+    </div>
+    <div>
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" required />
+    </div>
+    <div>
+        <button type="submit">Accedi</button>
+    </div>
+    <div th:if="${param.error}">
+        <p>Credenziali non valide</p>
+    </div>
+    <div th:if="${param.logout}">
+        <p>Hai eseguito il logout con successo.</p>
+    </div>
+</form>
+</main>
+</body>
+</html>

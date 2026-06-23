@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title th:text="${department.id != null} ? 'Modifica Reparto' : 'Nuovo Reparto'"></title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body class="app-shell">
+<main class="page-container">
+<h1 th:text="${department.id != null} ? 'Modifica Reparto' : 'Nuovo Reparto'"></h1>
+<nav class="main-nav">
+    <a th:href="@{/departments}">Torna all'elenco</a> |
+    <a th:href="@{/dashboard}">Dashboard</a> |
+    <a th:href="@{/logout}">Logout</a>
+</nav>
+<form class="form-card" th:action="@{/departments/save}" th:object="${department}" method="post">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+    <div>
+        <label>Nome reparto</label>
+        <input th:field="*{name}" type="text" required />
+    </div>
+    <div>
+        <label>Descrizione</label>
+        <textarea th:field="*{description}"></textarea>
+    </div>
+    <div>
+        <label>Manager</label>
+        <select name="managerId">
+            <option th:value="" th:text="'-- Nessun manager --'"></option>
+            <option th:each="manager : ${managers}"
+                    th:value="${manager.id}"
+                    th:text="${manager.fullName}"
+                    th:selected="${department.manager != null} ? ${department.manager.id} == ${manager.id} : false"></option>
+        </select>
+    </div>
+    <div>
+        <button type="submit">Salva</button>
+    </div>
+</form>
+</main>
+</body>
+</html>

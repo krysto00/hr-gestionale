@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dettaglio Busta Paga</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body class="app-shell">
+<main class="page-container">
+<h1>Dettaglio Busta Paga</h1>
+<nav class="main-nav">
+    <a th:href="@{/payslips}">Torna all'elenco</a> |
+    <a th:href="@{/dashboard}">Dashboard</a> |
+    <a th:href="@{/logout}">Logout</a>
+</nav>
+<div>
+    <p>Dipendente: <span th:text="${payslip.employee.fullName}"></span></p>
+    <p>Periodo: <span th:text="${payslip.periodMonth} + '/' + ${payslip.periodYear}"></span></p>
+    <p>Stipendio base: <span th:text="${payslip.baseSalary}"></span></p>
+    <p>Bonus: <span th:text="${payslip.bonus}"></span></p>
+    <p>Detrazioni: <span th:text="${payslip.deductions}"></span></p>
+    <p>Netto: <span th:text="${payslip.netAmount}"></span></p>
+    <p>Data emissione: <span th:text="${payslip.issuedDate}"></span></p>
+</div>
+</main>
+</body>
+</html>

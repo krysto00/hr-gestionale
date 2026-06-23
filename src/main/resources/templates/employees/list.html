@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dipendenti</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body class="app-shell">
+<main class="page-container">
+<h1>Elenco Dipendenti</h1>
+<nav class="main-nav">
+    <a th:href="@{/dashboard}">Dashboard</a> |
+    <a th:href="@{/employees/new}">Nuovo Dipendente</a> |
+    <a th:href="@{/logout}">Logout</a>
+</nav>
+<table class="data-table">
+    <thead>
+    <tr>
+        <th>Nome</th>
+        <th>Ruolo</th>
+        <th>Reparto</th>
+        <th>Azioni</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="employee : ${employees}">
+        <td th:text="${employee.fullName}"></td>
+        <td th:text="${employee.role}"></td>
+        <td th:text="${employee.department != null ? employee.department.name : 'Non assegnato'}"></td>
+        <td>
+            <a th:href="@{/employees/{id}(id=${employee.id})}">Dettaglio</a> |
+            <a th:href="@{/employees/{id}/edit(id=${employee.id})}">Modifica</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</main>
+</body>
+</html>

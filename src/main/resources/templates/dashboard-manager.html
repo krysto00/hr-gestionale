@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dashboard Manager</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body class="app-shell">
+<main class="page-container">
+<h1>Dashboard Manager</h1>
+<nav class="main-nav">
+    <a th:href="@{/payslips}">Buste paga</a> |
+    <a th:href="@{/logout}">Logout</a>
+</nav>
+<div>
+    <p>Benvenuto, <span th:text="${currentUser.fullName}"></span>!</p>
+    <h2>Il tuo reparto</h2>
+    <p th:text="${currentUser.department != null ? currentUser.department.name : 'Nessun reparto assegnato'}"></p>
+</div>
+<div>
+    <h3>Membri del team</h3>
+    <ul>
+        <li th:each="employee : ${teamMembers}">
+            <span th:text="${employee.fullName}"></span> - <span th:text="${employee.role}"></span>
+        </li>
+    </ul>
+</div>
+<div>
+    <h3>Buste paga del team</h3>
+    <ul>
+        <li th:each="payslip : ${teamPayslips}">
+            <a th:href="@{/payslips/{id}(id=${payslip.id})}" th:text="${payslip.employee.fullName} + ' - ' + ${payslip.periodMonth} + '/' + ${payslip.periodYear}"></a>
+        </li>
+    </ul>
+</div>
+</main>
+</body>
+</html>

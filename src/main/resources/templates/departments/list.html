@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Reparti</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body class="app-shell">
+<main class="page-container">
+<h1>Elenco Reparti</h1>
+<nav class="main-nav">
+    <a th:href="@{/dashboard}">Dashboard</a> |
+    <a th:href="@{/departments/new}">Nuovo Reparto</a> |
+    <a th:href="@{/logout}">Logout</a>
+</nav>
+<table class="data-table">
+    <thead>
+    <tr>
+        <th>Nome</th>
+        <th>Manager</th>
+        <th>Azioni</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="department : ${departments}">
+        <td th:text="${department.name}"></td>
+        <td th:text="${department.manager != null ? department.manager.fullName : 'Non assegnato'}"></td>
+        <td>
+            <a th:href="@{/departments/{id}(id=${department.id})}">Dettaglio</a> |
+            <a th:href="@{/departments/{id}/edit(id=${department.id})}">Modifica</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</main>
+</body>
+</html>

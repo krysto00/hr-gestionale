@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dettaglio Reparto</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body class="app-shell">
+<main class="page-container">
+<h1>Dettaglio Reparto</h1>
+<nav class="main-nav">
+    <a th:href="@{/departments}">Torna all'elenco</a> |
+    <a th:href="@{/dashboard}">Dashboard</a> |
+    <a th:href="@{/logout}">Logout</a>
+</nav>
+<div>
+    <p>Nome reparto: <span th:text="${department.name}"></span></p>
+    <p>Manager: <span th:text="${department.manager != null ? department.manager.fullName : 'Non assegnato'}"></span></p>
+    <p>Descrizione: <span th:text="${department.description}"></span></p>
+</div>
+<div>
+    <h3>Membri del reparto</h3>
+    <ul>
+        <li th:each="employee : ${department.employees}">
+            <span th:text="${employee.fullName}"></span> - <span th:text="${employee.role}"></span>
+        </li>
+    </ul>
+</div>
+</main>
+</body>
+</html>

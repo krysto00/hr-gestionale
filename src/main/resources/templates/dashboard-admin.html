@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dashboard Admin</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body class="app-shell">
+<main class="page-container">
+<h1>Dashboard Admin</h1>
+<nav class="main-nav">
+    <a th:href="@{/employees}">Dipendenti</a> |
+    <a th:href="@{/departments}">Reparti</a> |
+    <a th:href="@{/payslips}">Buste paga</a> |
+    <a th:href="@{/logout}">Logout</a>
+</nav>
+<div>
+    <p>Benvenuto, <span th:text="${currentUser.fullName}"></span>!</p>
+    <p>Dipendenti totali: <span th:text="${employeeCount}"></span></p>
+    <p>Reparti totali: <span th:text="${departmentCount}"></span></p>
+    <p>Buste paga totali: <span th:text="${payslipCount}"></span></p>
+</div>
+</main>
+</body>
+</html>

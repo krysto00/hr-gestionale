@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title th:text="${employee.id != null} ? 'Modifica Dipendente' : 'Nuovo Dipendente'"></title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body class="app-shell">
+<main class="page-container">
+<h1 th:text="${employee.id != null} ? 'Modifica Dipendente' : 'Nuovo Dipendente'"></h1>
+<nav class="main-nav">
+    <a th:href="@{/employees}">Torna all'elenco</a> |
+    <a th:href="@{/dashboard}">Dashboard</a> |
+    <a th:href="@{/logout}">Logout</a>
+</nav>
+<form class="form-card" th:action="@{/employees/save}" th:object="${employee}" method="post">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+    <div>
+        <label>Username</label>
+        <input th:field="*{username}" type="text" required />
+    </div>
+    <div>
+        <label>Nome</label>
+        <input th:field="*{firstName}" type="text" required />
+    </div>
+    <div>
+        <label>Cognome</label>
+        <input th:field="*{lastName}" type="text" required />
+    </div>
+    <div>
+        <label>Email</label>
+        <input th:field="*{email}" type="email" required />
+    </div>
+    <div>
+        <label>Posizione</label>
+        <input th:field="*{position}" type="text" />
+    </div>
+    <div>
+        <label>Ruolo</label>
+        <select th:field="*{role}">
+            <option th:each="role : ${roles}" th:value="${role}" th:text="${role}"></option>
+        </select>
+    </div>
+    <div>
+        <label>Data assunzione</label>
+        <input th:field="*{hireDate}" type="date" required />
+    </div>
+    <div>
+        <label>Reparto</label>
+        <select name="departmentId">
+            <option th:value="" th:text="'-- Nessun reparto --'"></option>
+            <option th:each="department : ${departments}"
+                    th:value="${department.id}"
+                    th:text="${department.name}"
+                    th:selected="${employee.department != null} ? ${employee.department.id} == ${department.id} : false"></option>
+        </select>
+    </div>
+    <div>
+        <label>Password (usa PLACEHOLDER per aggiornamento automatico)</label>
+        <input th:field="*{passwordHash}" type="text" />
+    </div>
+    <div>
+        <button type="submit">Salva</button>
+    </div>
+</form>
+</main>
+</body>
+</html>

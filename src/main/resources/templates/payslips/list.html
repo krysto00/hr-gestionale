@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Buste paga</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body class="app-shell">
+<main class="page-container">
+<h1>Buste paga</h1>
+<nav class="main-nav">
+    <a th:href="@{/dashboard}">Dashboard</a>
+    <span th:if="${canCreate}">| <a th:href="@{/payslips/new}">Nuova busta paga</a></span>
+    | <a th:href="@{/logout}">Logout</a>
+</nav>
+<table class="data-table">
+    <thead>
+    <tr>
+        <th>Dipendente</th>
+        <th>Periodo</th>
+        <th>Netto</th>
+        <th>Dettaglio</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="payslip : ${payslips}">
+        <td th:text="${payslip.employee.fullName}"></td>
+        <td th:text="${payslip.periodMonth} + '/' + ${payslip.periodYear}"></td>
+        <td th:text="${payslip.netAmount}"></td>
+        <td><a th:href="@{/payslips/{id}(id=${payslip.id})}">Visualizza</a></td>
+    </tr>
+    </tbody>
+</table>
+</main>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dashboard Employee</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body class="app-shell">
+<main class="page-container">
+<h1>Dashboard Employee</h1>
+<nav class="main-nav">
+    <a th:href="@{/payslips}">Le mie buste paga</a> |
+    <a th:href="@{/logout}">Logout</a>
+</nav>
+<div>
+    <p>Benvenuto, <span th:text="${employee.fullName}"></span>!</p>
+    <p>Posizione: <span th:text="${employee.position}"></span></p>
+    <p>Reparto: <span th:text="${employee.department != null ? employee.department.name : 'Non assegnato'}"></span></p>
+</div>
+<div>
+    <h3>Ultime buste paga</h3>
+    <ul>
+        <li th:each="payslip : ${personalPayslips}">
+            <a th:href="@{/payslips/{id}(id=${payslip.id})}" th:text="${payslip.periodMonth} + '/' + ${payslip.periodYear} + ' - ' + ${payslip.netAmount}"></a>
+        </li>
+    </ul>
+</div>
+</main>
+</body>
+</html>
