@@ -129,4 +129,24 @@ test.describe('HR Gestionale - CSRF Protection', () => {
     const csrfToken = await page.locator('input[name="_csrf"]').count();
     expect(csrfToken).toBeGreaterThan(0);
   });
+
+  test.describe('patch/idor - IDOR ATTIVO (CWE-639)', () => {
+  test('IDOR: anna.gialli accede a busta paga di paolo.rossi', async ({ page }) => {
+    await login(page, 'anna.gialli', 'dipendente123');
+    // payslip 3 e 4 appartengono a paolo.rossi
+    const response = await page.goto(`${baseUrl}/payslips/3`);
+    expect(response.status()).toBe(200);
+    const content = await page.textContent('body');
+    expect(content).toContain('Paolo');
+  });
+
+  test('IDOR: anna.gialli accede a busta paga di giulia.blu', async ({ page }) => {
+    await login(page, 'anna.gialli', 'dipendente123');
+    // payslip 5 e 6 appartengono a giulia.blu
+    const response = await page.goto(`${baseUrl}/payslips/5`);
+    expect(response.status()).toBe(200);
+    const content = await page.textContent('body');
+    expect(content).toContain('Giulia');
+  });
+});
 });

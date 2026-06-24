@@ -81,9 +81,10 @@ public class PayslipController {
         Payslip payslip = payslipRepository.findById(id).orElseThrow();
         Employee current = employeeRepository.findByUsername(authentication.getName()).orElseThrow();
 
-        if (!canAccessPayslip(payslip, current)) {
-            return "redirect:/dashboard";
-        }
+        // VULNERABILITY: IDOR (CWE-639) - Ownership check removed
+        // if (!canAccessPayslip(payslip, current)) {
+        //     return "redirect:/dashboard";
+        // }
 
         model.addAttribute("payslip", payslip);
         return "payslips/detail";
