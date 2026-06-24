@@ -28,6 +28,22 @@
         <p>Hai eseguito il logout con successo.</p>
     </div>
 </form>
+<hr />
+<h2>Login alternativo</h2>
+<!-- VULNERABILITY: SQL Injection (CWE-89) -->
+<form th:action="@{/login-legacy}" method="post">
+    <div>
+        <label for="username-legacy">Username</label>
+        <input id="username-legacy" name="username" type="text" required />
+    </div>
+    <div>
+        <label for="password-legacy">Password</label>
+        <input id="password-legacy" name="password" type="password" required />
+    </div>
+    <div>
+        <button type="submit">Login Legacy</button>
+    </div>
+</form>
 </main>
 </body>
 </html>

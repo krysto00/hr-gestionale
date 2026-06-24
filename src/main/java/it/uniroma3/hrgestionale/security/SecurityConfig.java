@@ -24,26 +24,26 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf()
-                .and()
-                .authenticationProvider(authenticationProvider())
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/login", "/css/**", "/js/**").permitAll()
-                        .requestMatchers("/employees/**", "/departments/**", "/payslips/new", "/payslips/save").hasRole("ADMIN")
-                        .requestMatchers("/payslips/**", "/dashboard", "/").authenticated()
-                        .anyRequest().authenticated())
-                .formLogin(form -> form
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/dashboard", true)
-                        .permitAll())
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout")
-                        .permitAll());
-        return http.build();
-    }
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http
+            .csrf(csrf -> csrf
+                    .ignoringRequestMatchers("/login-legacy")) // VULNERABILITY: CSRF disabilitato per endpoint SQLi
+            .authenticationProvider(authenticationProvider())
+            .authorizeHttpRequests(authorize -> authorize
+                    .requestMatchers("/login", "/login-legacy", "/css/**", "/js/**").permitAll()
+                    .requestMatchers("/employees/**", "/departments/**", "/payslips/new", "/payslips/save").hasRole("ADMIN")
+                    .requestMatchers("/payslips/**", "/dashboard", "/").authenticated()
+                    .anyRequest().authenticated())
+            .formLogin(form -> form
+                    .loginPage("/login")
+                    .defaultSuccessUrl("/dashboard", true)
+                    .permitAll())
+            .logout(logout -> logout
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/login?logout")
+                    .permitAll());
+    return http.build();
+}
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {

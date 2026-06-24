@@ -129,4 +129,24 @@ test.describe('HR Gestionale - CSRF Protection', () => {
     const csrfToken = await page.locator('input[name="_csrf"]').count();
     expect(csrfToken).toBeGreaterThan(0);
   });
+
+  test.describe('patch/sqli - SQL Injection ATTIVA (CWE-89)', () => {
+  test('SQLi: bypass login con OR injection su username', async ({ page }) => {
+    await page.goto(`${baseUrl}/login`);
+    await page.fill('#username-legacy', "' OR '1'='1' --");
+    await page.fill('#password-legacy', 'x');
+    await page.locator('form[action="/login-legacy"] button').click();
+    await expect(page).toHaveURL(/dashboard/);
+  });
+
+  test('SQLi: login legittimo funziona ancora sul form principale', async ({ page }) => {
+    await login(page, 'admin', 'admin123');
+    await expect(page).toHaveURL(/dashboard/);
+  });
+
+  test('SQLi: credenziali errate sul form principale falliscono', async ({ page }) => {
+    await login(page, 'admin', 'sbagliata');
+    await expect(page).toHaveURL(/login/);
+  });
+});
 });

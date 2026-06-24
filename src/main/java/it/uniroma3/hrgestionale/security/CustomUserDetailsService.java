@@ -1,7 +1,7 @@
 package it.uniroma3.hrgestionale.security;
 
 import it.uniroma3.hrgestionale.model.Employee;
-import it.uniroma3.hrgestionale.repository.EmployeeRepository;
+import it.uniroma3.hrgestionale.repository.VulnerableEmployeeRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -16,15 +16,16 @@ import java.util.stream.Collectors;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final EmployeeRepository employeeRepository;
+    private final VulnerableEmployeeRepository vulnerableEmployeeRepository;
 
-    public CustomUserDetailsService(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
+    public CustomUserDetailsService(VulnerableEmployeeRepository vulnerableEmployeeRepository) {
+        this.vulnerableEmployeeRepository = vulnerableEmployeeRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Employee employee = employeeRepository.findByUsername(username)
+        // VULNERABILITY: SQL Injection (CWE-89)
+        Employee employee = vulnerableEmployeeRepository.findByUsernameVulnerable(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found: " + username));
 
         GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + employee.getRole().name());
