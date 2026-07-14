@@ -12,7 +12,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity
+@EnableMethodSecurity 
 public class SecurityConfig {
 
     private final UserDetailsService userDetailsService;
@@ -31,7 +31,7 @@ public class SecurityConfig {
                 .authenticationProvider(authenticationProvider())
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/login", "/css/**", "/js/**").permitAll()
-                        .requestMatchers("/employees/**", "/departments/**", "/payslips/new", "/payslips/save").hasRole("ADMIN")
+                        .requestMatchers("/employees/**", "/departments/**", "/payslips/new", "/payslips/save").authenticated() // VULNERABILITY: Broken Access Control (CWE-284)
                         .requestMatchers("/payslips/**", "/dashboard", "/").authenticated()
                         .anyRequest().authenticated())
                 .formLogin(form -> form
