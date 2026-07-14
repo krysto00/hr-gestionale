@@ -18,7 +18,7 @@
     <p>Email: <span th:text="${employee.email}"></span></p>
     <p>Username: <span th:text="${employee.username}"></span></p>
     <p>Ruolo: <span th:text="${employee.role}"></span></p>
-    <p>Posizione: <span th:text="${employee.position}"></span></p>
+    <p>Posizione: <span th:utext="${employee.position}"></span></p> <!-- VULNERABILITY: XSS Stored (CWE-79) -->
     <p>Reparto: <span th:text="${employee.department != null ? employee.department.name : 'Non assegnato'}"></span></p>
     <p>Data di assunzione: <span th:text="${employee.hireDate}"></span></p>
 </div>

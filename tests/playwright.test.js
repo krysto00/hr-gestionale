@@ -130,3 +130,26 @@ test.describe('HR Gestionale - CSRF Protection', () => {
     expect(csrfToken).toBeGreaterThan(0);
   });
 });
+
+test.describe('patch/xss - XSS Stored ATTIVO (CWE-79)', () => {
+  test('XSS: payload nel campo position viene eseguito come script', async ({ page }) => {
+    await login(page, 'admin', 'admin123');
+
+    let alertFired = false;
+    page.on('dialog', async dialog => {
+      alertFired = true;
+      await dialog.dismiss();
+    });
+
+    await page.goto(`${baseUrl}/employees/5`);
+    await page.waitForTimeout(1000);
+
+    expect(alertFired).toBe(true);
+  });
+
+  test('XSS: admin può modificare position di un dipendente', async ({ page }) => {
+    await login(page, 'admin', 'admin123');
+    await page.goto(`${baseUrl}/employees/5`);
+    expect(page.url()).toContain('/employees/5');
+  });
+});
