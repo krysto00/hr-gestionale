@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Controller
-@PreAuthorize("hasRole('ADMIN')")
+// VULNERABILITY: Broken Access Control (CWE-284)
 public class EmployeeController {
 
     private final EmployeeRepository employeeRepository;

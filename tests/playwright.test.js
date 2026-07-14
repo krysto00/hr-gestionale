@@ -153,3 +153,24 @@ test.describe('patch/xss - XSS Stored ATTIVO (CWE-79)', () => {
     expect(page.url()).toContain('/employees/5');
   });
 });
+
+test.describe('patch/broken-ac - Broken Access Control ATTIVO (CWE-284)', () => {
+  test('BAC: employee accede a /employees (non dovrebbe)', async ({ page }) => {
+    await login(page, 'anna.gialli', 'dipendente123');
+    const response = await page.goto(`${baseUrl}/employees`);
+    expect(response.status()).toBe(200);
+  });
+
+  test('BAC: manager accede a /departments (non dovrebbe)', async ({ page }) => {
+    await login(page, 'luca.bianchi', 'manager123');
+    const response = await page.goto(`${baseUrl}/departments`);
+    expect(response.status()).toBe(200);
+  });
+
+  test('BAC: employee accede a /employees e vede lista dipendenti', async ({ page }) => {
+    await login(page, 'anna.gialli', 'dipendente123');
+    await page.goto(`${baseUrl}/employees`);
+    const content = await page.textContent('body');
+    expect(content).toContain('Admin Sistema');
+  });
+});
